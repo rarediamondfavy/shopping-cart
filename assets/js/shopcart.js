@@ -1,21 +1,56 @@
-let changeButtonTxt = document.getElementById("changeTxt");
-let viewShoppingCart = document.getElementById("viewShoppingCart");
-let selectMoreItems = document.getElementById("selectShoppingCart");
-let showingSelectMoreItemsElement = false;
-
-selectMoreItems.style.display = "none";
-viewShoppingCart.style.display = "block";
-function changeView() {
-    if (showingSelectMoreItemsElement === true) {
-        selectMoreItems.style.display = "none";
-        viewShoppingCart.style.display = "block";
-        showingSelectMoreItemsElement = false;
-        changeButtonTxt.innerHTML = "view shopping cart"
+const store = [
+    {
+        itemName: "T-shirt",
+        price: 6000,
+        quantity: 0
+    },
+    {
+        itemName: "Dress",
+        price: 8000,
+        quantity: 0
+    },
+    {
+        itemName: "Short",
+        price: 4000,
+        quantity: 0
+    },
+    {
+        itemName: "Jean",
+        price: 7000,
+        quantity: 0
     }
-    else{
-        changeButtonTxt.innerHTML = "Select more items"
-        selectMoreItems.style.display = "block"
-        viewShoppingCart.style.display = "none"
-        showingSelectMoreItemsElement = true
+];
+let app = new Vue({
+    el: "#app",
+    data: {
+        title: "Shopping Cart",
+        showShoppingCart: false,
+        storeItems: store,
+        cart: [],
+        total:0
+    },
+    methods: {
+        changeView: function(){
+            if (this.showShoppingCart === false){
+                this.showShoppingCart = true;
+            }else {
+                this.showShoppingCart = false;
+            }
+        },
+        addToCart: function(item){
+            this.cart.push(item);
+            this.calcTotal()
+        },
+        removeFromCart: function(item, index){
+            this.cart.splice(index, 1);
+            this.calcTotal()
+        },
+        calcTotal: function(){
+            let total = 0
+            for(let i=0; i<this.cart.length; i++) {
+                total = this.total + (this.cart[i].price * this.cart[i].quantity)
+            }
+            this.total = total
+        },
     }
-}
+})
